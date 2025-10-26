@@ -115,7 +115,6 @@ VITE_APPWRITE_API_KEY=
 VITE_APPWRITE_DATABASE_ID=
 VITE_APPWRITE_USERS_COLLECTION_ID=
 VITE_APPWRITE_ITINERARY_COLLECTION_ID=
-STRIPE_SECRET_KEY=
 GEMINI_API_KEY=
 UNSPLASH_ACCESS_KEY="
 VITE_BASE_URL="http://localhost:5173"
@@ -130,8 +129,6 @@ VITE_BASE_URL="http://localhost:5173"
 - **[Gemini AI](https://aistudio.google.com/)**
 
 - **[Sentry](https://jsm.dev/tourvisto-sentry)**
-
-- **[Stripe](https://stripe.com/)**
 
 - **[Unsplash](https://unsplash.com/)**
 
@@ -171,8 +168,8 @@ Open [http://localhost:5173](http://localhost:5173/) in your browser to view the
   --color-gray-500: #667085;
   --color-gray-700: #344054;
   --color-primary-50: #e9f3fb;
-  --color-primary-100: #256ff1;
-  --color-primary-500: #175cd3;
+  --color-primary-100: #222;
+  --color-primary-500: #000;
   --color-light-100: #ecf2ef;
   --color-light-200: #f9fbfc;
   --color-light-300: #f2f4f7;

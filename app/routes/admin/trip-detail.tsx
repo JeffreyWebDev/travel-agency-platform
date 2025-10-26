@@ -16,9 +16,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
     return {
         trip,
-        allTrips: trips.allTrips.map(({ $id, tripDetails, imageUrls }) => ({
+        allTrips: trips.allTrips.map(({ $id, tripDetail, imageUrls }) => ({
             id: $id,
-            ...parseTripData(tripDetails),
+            ...parseTripData(tripDetail),
             imageUrls: imageUrls ?? []
         }))
     }
@@ -26,13 +26,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 const TripDetail = ({ loaderData }: Route.ComponentProps) => {
     const imageUrls = loaderData?.trip?.imageUrls || [];
-    const tripData = parseTripData(loaderData?.trip?.tripDetails);
+    const tripData = parseTripData(loaderData?.trip?.tripDetail);
 
     const {
         name, duration, itinerary, travelStyle,
         groupType, budget, interests, estimatedPrice,
         description, bestTimeToVisit, weatherInfo, country
     } = tripData || {};
+    
     const allTrips = loaderData.allTrips as Trip[] | [];
 
     const pillItems = [
@@ -55,16 +56,16 @@ const TripDetail = ({ loaderData }: Route.ComponentProps) => {
                 <header>
                     <h1 className="p-40-semibold text-dark-100">{name}</h1>
                     <div className="flex items-center gap-5">
-                <InfoPill
-                    text={`${duration} day plan`}
-                    image="/assets/icons/calendar.svg"
-                />
+                    <InfoPill
+                        text={`${duration} day plan`}
+                        image="/assets/icons/calendar.svg"
+                    />
 
-                <InfoPill
-                    text={itinerary?.slice(0,4)
-                        .map((item) => item.location).join(', ') || ''}
-                    image="/assets/icons/location-mark.svg"
-                />
+                    <InfoPill
+                        text={itinerary?.slice(0,4)
+                            .map((item) => item.location).join(', ') || ''}
+                        image="/assets/icons/location-mark.svg"
+                    />
                     </div>
                 </header>
 

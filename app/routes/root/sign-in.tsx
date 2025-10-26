@@ -21,12 +21,12 @@ const SignIn = () => {
                     <header className="header">
                         <Link to="/">
                             <img
-                                src="/assets/icons/logo.svg"
+                                src="/assets/icons/next_stop_logo-removebg-preview.png"
                                 alt="logo"
-                                className="size-[30px]"
+                                className="size-[35px]"
                             />
                         </Link>
-                        <h1 className="p-28-bold text-dark-100">Tourvisto</h1>
+                        <h1 className="p-28-bold text-dark-100">NextStop</h1>
                     </header>
 
                     <article>

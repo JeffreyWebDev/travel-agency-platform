@@ -11,15 +11,30 @@ import {account} from "~/appwrite/client";
 import {useNavigate} from "react-router";
 
 export const loader = async () => {
-    const response = await fetch('https://restcountries.com/v3.1/all');
-    const data = await response.json();
+    try {
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,flag,latlng,maps');
 
-    return data.map((country: any) => ({
-        name: country.flag + country.name.common,
-        coordinates: country.latlng,
-        value: country.name.common,
-        openStreetMap: country.maps?.openStreetMap,
-    }))
+        if (!response.ok) {
+            throw new Error(`Failed to fetch countries: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            throw new Error('Unexpected API response format: expected an array of countries');
+        }
+
+        return data.map((country: any) => ({
+            name: country.flag + country.name.common,
+            coordinates: country.latlng,
+            value: country.name.common,
+            openStreetMap: country.maps?.openStreetMap,
+        }));
+    } catch (error) {
+        console.error('Error loading countries:', error);
+        // Return empty array or throw error to handle gracefully
+        throw new Response('Failed to load countries data', { status: 500 });
+    }
 }
 
 const CreateTrip = ({ loaderData }: Route.ComponentProps ) => {
@@ -66,7 +81,9 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps ) => {
        }
 
        try {
-           const response = await fetch('/api/create-trip', {
+            // console.log("user", user);
+            // console.log("Form data", formData);
+            const response = await fetch('/api/create-trip', {
                method: 'POST',
                headers: { 'Content-Type': 'application/json'},
                body: JSON.stringify({
@@ -84,6 +101,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps ) => {
 
            if(result?.id) navigate(`/trips/${result.id}`)
            else console.error('Failed to generate a trip')
+
        } catch (e) {
            console.error('Error generating trip', e);
        } finally {

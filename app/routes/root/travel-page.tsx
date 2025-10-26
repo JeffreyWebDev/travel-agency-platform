@@ -1,4 +1,4 @@
-import {Link, type LoaderFunctionArgs, useSearchParams} from "react-router";
+import {Link, type LoaderFunctionArgs, useSearchParams, useNavigate} from "react-router";
 import {ButtonComponent} from "@syncfusion/ej2-react-buttons";
 import {cn, parseTripData} from "~/lib/utils";
 import {Header, TripCard} from "../../../components";
@@ -56,6 +56,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 const TravelPage = ({ loaderData }: Route.ComponentProps) => {
     const trips = loaderData.trips as Trip[] | [];
+    const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
     const initialPage = Number(searchParams.get('page') || '1')
@@ -65,6 +66,10 @@ const TravelPage = ({ loaderData }: Route.ComponentProps) => {
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
         window.location.search = `?page=${page}`
+    }
+
+    const handleGetStarted = () => {
+        navigate('/dashboard');
     }
 
     return (
@@ -78,80 +83,81 @@ const TravelPage = ({ loaderData }: Route.ComponentProps) => {
                             </h1>
 
                             <p className="text-dark-100">
-                                Customize your travel itinerary in minutes—pick your destination, set your preferences, and explore with confidence.
+                                Customize your travel itinerary in minutes, pick your destination, set your preferences, and explore with confidence.
                             </p>
                         </article>
 
-                        <Link to="#trips">
-                            <ButtonComponent type="button" className="button-class !h-11 !w-full md:!w-[240px]">
-                                <span className="p-16-semibold text-white">
-                                    Get Started
-                                </span>
-                            </ButtonComponent>
-                        </Link>
+                        <ButtonComponent type="button" className="button-class !h-11 !w-full md:!w-[240px]" onClick={handleGetStarted}>
+                            <span className="p-16-semibold text-white">
+                                Get Started
+                            </span>
+                        </ButtonComponent>
                     </section>
                 </div>
             </section>
 
-            <section className="pt-20 wrapper flex flex-col gap-10 h-full">
+            <section className="pt-20 wrapper mb-6 flex flex-col gap-10 h-full">
                 <Header title="Featured Travel Destinations" description="Check out some of the best places you visit around the world" />
                 <div className="featured">
-                <article>
-                    <FeaturedDestination
-                        bgImage="bg-card-1"
-                        containerClass="h-1/3 lg:h-1/2"
-                        bigCard
-                        title="Barcelona Tour"
-                        rating={4.2}
-                        activityCount={196}
-                    />
-
-                    <div className="travel-featured">
+                    <article>
                         <FeaturedDestination
-                            bgImage="bg-card-2"
+                            bgImage="bg-card-1"
+                            containerClass="h-1/3 lg:h-1/2"
                             bigCard
-                            title="London"
-                            rating={4.5}
-                            activityCount={512}
+                            title="Barcelona Tour"
+                            rating={4.2}
+                            activityCount={196}
+                        />
+
+                        <div className="travel-featured">
+                            <FeaturedDestination
+                                bgImage="bg-card-2"
+                                bigCard
+                                title="London"
+                                rating={4.5}
+                                activityCount={512}
+                            />
+                            <FeaturedDestination
+                                bgImage="bg-card-3"
+                                bigCard
+                                title="Australia Tour"
+                                rating={3.5}
+                                activityCount={250}
+                            />
+                        </div>
+                    </article>
+
+                    <div className="flex flex-col gap-[30px]">
+                        <FeaturedDestination
+                            containerClass="w-full h-[240px]"
+                            bgImage="bg-card-4"
+                            title="Spain Tour"
+                            rating={3.8}
+                            activityCount={150}
                         />
                         <FeaturedDestination
-                            bgImage="bg-card-3"
-                            bigCard
-                            title="Australia Tour"
-                            rating={3.5}
-                            activityCount={250}
+                            containerClass="w-full h-[240px]"
+                            bgImage="bg-card-5"
+                            title="Japan"
+                            rating={5}
+                            activityCount={150}
+                        />
+                        <FeaturedDestination
+                            containerClass="w-full h-[240px]"
+                            bgImage="bg-card-6"
+                            title="Italy Tour"
+                            rating={4.2}
+                            activityCount={500}
                         />
                     </div>
-                </article>
-
-                <div className="flex flex-col gap-[30px]">
-                    <FeaturedDestination
-                        containerClass="w-full h-[240px]"
-                        bgImage="bg-card-4"
-                        title="Spain Tour"
-                        rating={3.8}
-                        activityCount={150}
-                    />
-                    <FeaturedDestination
-                        containerClass="w-full h-[240px]"
-                        bgImage="bg-card-5"
-                        title="Japan"
-                        rating={5}
-                        activityCount={150}
-                    />
-                    <FeaturedDestination
-                        containerClass="w-full h-[240px]"
-                        bgImage="bg-card-6"
-                        title="Italy Tour"
-                        rating={4.2}
-                        activityCount={500}
-                    />
-                </div>
                 </div>
             </section>
 
-            <section id="trips" className="py-20 wrapper flex flex-col gap-10">
-                <Header title="Handpicked Trips" description="Browse well-planned trips designes for your travel style" />
+            {/* <section id="trips" className="py-20 wrapper flex flex-col gap-10">  */}
+                {/* <Header 
+                    title="Handpicked Trips" 
+                    description="Browse well-planned trips designes for your travel style" 
+                />
 
                 <div className="trip-grid">
                     {trips.map((trip) => (
@@ -173,23 +179,23 @@ const TravelPage = ({ loaderData }: Route.ComponentProps) => {
                     currentPage={currentPage}
                     click={(args) => handlePageChange(args.currentPage)}
                     cssClass="!mb-4"
-                />
-            </section>
+                /> */}
+            {/* </section>  */}
 
-            <footer className="h-28 bg-white">
+            <footer className="h-28 bg-black flex items-center">
                 <div className="wrapper footer-container">
                     <Link to="/">
                         <img
-                            src="/assets/icons/logo.svg"
+                            src="/assets/icons/next_stop_logo-removebg-preview.png"
                             alt="logo"
-                            className="size-[30px]"
+                            className="size-[37px] bg-white rounded-full p-1"
                         />
-                        <h1>Tourvisto</h1>
+                        <h1 className="text-white">NextStop</h1>
                     </Link>
 
                     <div>
                         {['Terms & Conditions', "Privacy Policy"].map((item) => (
-                            <Link to="/" key={item}>{item}</Link>
+                            <Link to="/" key={item} className="text-white">{item}</Link>
                         ))}
                     </div>
                 </div>

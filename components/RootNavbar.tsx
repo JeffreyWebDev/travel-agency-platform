@@ -18,13 +18,13 @@ const RootNavbar = () => {
         <nav className={cn(location.pathname === `/travel/${params.tripId}` ? 'bg-white' : 'glassmorphism', 'w-full fixed z-50')}>
             <header className="root-nav wrapper">
                 <Link to='/' className="link-logo">
-                    <img src="/assets/icons/logo.svg" alt="logo" className="size-[30px]" />
-                    <h1>Tourvisto</h1>
+                    <img src="/assets/icons/next_stop_logo-removebg-preview.png" alt="logo" className="size-[35px]" />
+                    <h1>NextStop</h1>
                 </Link>
 
                 <aside>
                     {user.status === 'admin' && (
-                        <Link to="/dashboard" className={cn('text-base font-normal text-white', {"text-dark-100": location.pathname.startsWith('/travel')})}>
+                        <Link to="/dashboard" className={cn('text-lg font-normal text-white', {"text-dark-100": location.pathname.startsWith('/travel')})}>
                             Admin Panel
                         </Link>
                     )}

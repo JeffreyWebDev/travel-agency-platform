@@ -128,7 +128,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
                 </div>
             </section>
 
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <ChartComponent
                     id="chart-1"
                     primaryXAxis={userXAxis}
@@ -214,7 +214,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
                         </GridComponent>
                     </div>
                 ))}
-            </section>
+            </section> */}
         </main>
     )
 }

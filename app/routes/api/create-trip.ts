@@ -1,9 +1,8 @@
 import {type ActionFunctionArgs, data} from "react-router";
 import {GoogleGenerativeAI} from "@google/generative-ai";
-import {parseMarkdownToJson, parseTripData} from "~/lib/utils";
+import {parseMarkdownToJson} from "~/lib/utils";
 import {appwriteConfig, database} from "~/appwrite/client";
 import {ID} from "appwrite";
-import {createProduct} from "~/lib/stripe";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const {
@@ -34,19 +33,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         "budget": "${budget}",
         "travelStyle": "${travelStyle}",
         "country": "${country}",
-        "interests": ${interests},
+        "interests": "${interests}",
         "groupType": "${groupType}",
         "bestTimeToVisit": [
-          '🌸 Season (from month to month): reason to visit',
-          '☀️ Season (from month to month): reason to visit',
-          '🍁 Season (from month to month): reason to visit',
-          '❄️ Season (from month to month): reason to visit'
+          "🌸 Season (from month to month): reason to visit",
+          "☀️ Season (from month to month): reason to visit",
+          "🍁 Season (from month to month): reason to visit",
+          "❄️ Season (from month to month): reason to visit"
         ],
         "weatherInfo": [
-          '☀️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-          '🌦️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-          '🌧️ Season: temperature range in Celsius (temperature range in Fahrenheit)',
-          '❄️ Season: temperature range in Celsius (temperature range in Fahrenheit)'
+          "☀️ Season: temperature range in Celsius (temperature range in Fahrenheit)",
+          "🌦️ Season: temperature range in Celsius (temperature range in Fahrenheit)",
+          "🌧️ Season: temperature range in Celsius (temperature range in Fahrenheit)",
+          "❄️ Season: temperature range in Celsius (temperature range in Fahrenheit)"
         ],
         "location": {
           "city": "name of the city or region",
@@ -68,7 +67,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }`;
 
         const textResult = await genAI
-            .getGenerativeModel({ model: 'gemini-2.0-flash' })
+            .getGenerativeModel({ model: 'gemini-2.5-flash' })
             .generateContent([prompt])
 
         const trip = parseMarkdownToJson(textResult.response.text());
@@ -85,29 +84,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             appwriteConfig.tripCollectionId,
             ID.unique(),
             {
-                tripDetails: JSON.stringify(trip),
+                tripDetail: JSON.stringify(trip),
                 createdAt: new Date().toISOString(),
                 imageUrls,
                 userId,
-            }
-        )
-
-        const tripDetail = parseTripData(result.tripDetails) as Trip;
-        const tripPrice = parseInt(tripDetail.estimatedPrice.replace('$', ''), 10)
-        const paymentLink = await createProduct(
-            tripDetail.name,
-            tripDetail.description,
-            imageUrls,
-            tripPrice,
-            result.$id
-        )
-
-        await database.updateDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.tripCollectionId,
-            result.$id,
-            {
-                payment_link: paymentLink.url
             }
         )
 
