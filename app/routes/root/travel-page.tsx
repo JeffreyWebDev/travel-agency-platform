@@ -69,7 +69,7 @@ const TravelPage = ({ loaderData }: Route.ComponentProps) => {
     }
 
     const handleGetStarted = () => {
-        navigate('/dashboard');
+        navigate('/trips/create');
     }
 
     return (
